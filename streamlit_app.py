@@ -197,30 +197,64 @@ def make_pdf(result, img_path):
         try: c.setFont(font or "Helvetica", s)
         except: c.setFont("Helvetica", s)
 
-    setf(18)
-    c.drawCentredString(W/2, H-mm(30), "발파설계결과")
+    # 타이틀
+    setf(16)
+    c.drawCentredString(W/2, H-mm(25), "발파설계결과")
 
-    pa_names = {1:"미진동발파", 2:"정밀진동제어", 3:"소규모진동제어",
-                4:"중규모진동제어", 5:"일반발파", 6:"대규모발파"}
+    # Pa 이름
+    pa_names = {1:"미진동발파패턴", 2:"정밀진동제어발파", 3:"소규모진동제어발파",
+                4:"중규모진동제어발파", 5:"일반발파", 6:"대규모발파"}
     setf(12)
-    c.drawString(mm(30), H-mm(45), f"발파공법: {pa_names.get(result['Pa'], '일반발파')}")
+    c.drawString(mm(25), H-mm(40), pa_names.get(result['Pa'], '일반발파'))
 
-    setf(11)
-    y = H - mm(55)
-    for label, key, unit in [("저항선(B)", "B", "m"), ("공간격(S)", "S", "m"),
-                              ("전색장(T)", "T", "m"), ("장약장(h)", "h", "m"),
-                              ("천공장(H)", "H", "m"), ("계단높이", "K_step", "m"),
-                              ("장약량/공(Q)", "Q", "kg"), ("비장약량(c1)", "c1", "kg/m³"),
-                              ("폭약경(pd)", "pd", "m")]:
-        c.drawString(mm(30), y, f"{label}: {result[key]:.2f} {unit}" if isinstance(result[key], float) else f"{label}: {result[key]} {unit}")
-        y -= mm(7)
+    # 테이블 그리기
+    table_x = mm(25)
+    table_y = H - mm(50)
+    col1_w = mm(35)  # 항목 열 너비
+    col2_w = mm(30)  # 값 열 너비
+    row_h = mm(8)    # 행 높이
 
+    rows = [
+        ("항목", "값"),
+        ("저항선 (B)", f"{result['B']:.2f} m"),
+        ("공간격 (S)", f"{result['S']:.2f} m"),
+        ("전색장 (T)", f"{result['T']:.2f} m"),
+        ("장약장 (h)", f"{result['h']:.2f} m"),
+        ("천공장 (H)", f"{result['H']:.2f} m"),
+        ("계단높이", f"{result['K_step']:.2f} m"),
+        ("장약량/공 (Q)", f"{result['Q']} kg"),
+        ("비장약량 (c1)", f"{result['c1']} kg/m³"),
+        ("폭약경 (pd)", f"{result['pd']} m"),
+    ]
+
+    # 테이블 테두리 및 텍스트
+    c.setStrokeColorRGB(0.3, 0.3, 0.3)
+    c.setLineWidth(0.5)
+    for i, (label, value) in enumerate(rows):
+        y = table_y - i * row_h
+        # 셀 테두리
+        c.rect(table_x, y - row_h, col1_w, row_h)
+        c.rect(table_x + col1_w, y - row_h, col2_w, row_h)
+        # 헤더 배경
+        if i == 0:
+            c.setFillColorRGB(0.94, 0.94, 0.94)
+            c.rect(table_x, y - row_h, col1_w + col2_w, row_h, fill=1)
+            c.setFillColorRGB(0, 0, 0)
+        # 텍스트
+        setf(9 if i == 0 else 9)
+        c.drawString(table_x + mm(2), y - row_h + mm(2.5), label)
+        c.drawString(table_x + col1_w + mm(2), y - row_h + mm(2.5), value)
+
+    # 이미지 (오른쪽)
     if img_path and os.path.isfile(img_path):
         try:
             ir = ImageReader(img_path)
             iw, ih = ir.getSize()
-            scale = min(mm(80)/iw, mm(120)/ih)
-            c.drawImage(ir, W-mm(30)-iw*scale, H-mm(50)-ih*scale, iw*scale, ih*scale)
+            img_x = table_x + col1_w + col2_w + mm(15)
+            img_max_w = W - img_x - mm(15)
+            img_max_h = mm(100)
+            scale = min(img_max_w/iw, img_max_h/ih)
+            c.drawImage(ir, img_x, H - mm(50) - ih*scale, iw*scale, ih*scale)
         except: pass
 
     c.showPage()
