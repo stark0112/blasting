@@ -396,19 +396,46 @@ if "result" in st.session_state:
     col1, col2 = st.columns([1, 1.8], vertical_alignment="top")
 
     with col1:
+        st.markdown("""
+        <style>
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 12px 10px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f0f2f6;
+            font-weight: 600;
+        }
+        .result-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .result-table td:last-child {
+            font-weight: bold;
+            text-align: right;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
         st.markdown(f"""
-| 항목 | 값 |
-|------|-----|
-| 저항선 (B) | **{r['B']:.2f} m** |
-| 공간격 (S) | **{r['S']:.2f} m** |
-| 전색장 (T) | **{r['T']:.2f} m** |
-| 장약장 (h) | **{r['h']:.2f} m** |
-| 천공장 (H) | **{r['H']:.2f} m** |
-| 계단높이 | **{r['K_step']:.2f} m** |
-| 장약량/공 (Q) | **{r['Q']} kg** |
-| 비장약량 (c1) | **{r['c1']} kg/m³** |
-| 폭약경 (pd) | **{r['pd']} m** |
-""")
+        <table class="result-table">
+            <tr><th>항목</th><th>값</th></tr>
+            <tr><td>저항선 (B)</td><td>{r['B']:.2f} m</td></tr>
+            <tr><td>공간격 (S)</td><td>{r['S']:.2f} m</td></tr>
+            <tr><td>전색장 (T)</td><td>{r['T']:.2f} m</td></tr>
+            <tr><td>장약장 (h)</td><td>{r['h']:.2f} m</td></tr>
+            <tr><td>천공장 (H)</td><td>{r['H']:.2f} m</td></tr>
+            <tr><td>계단높이</td><td>{r['K_step']:.2f} m</td></tr>
+            <tr><td>장약량/공 (Q)</td><td>{r['Q']} kg</td></tr>
+            <tr><td>비장약량 (c1)</td><td>{r['c1']} kg/m³</td></tr>
+            <tr><td>폭약경 (pd)</td><td>{r['pd']} m</td></tr>
+        </table>
+        """, unsafe_allow_html=True)
 
     with col2:
         if img and os.path.exists(img):
