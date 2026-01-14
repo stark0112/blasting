@@ -303,16 +303,18 @@ def make_pdf(result, img_path):
         c.drawString(table_x + mm(2), y - row_h + mm(2.5), label)
         c.drawString(table_x + col1_w + mm(2), y - row_h + mm(2.5), value)
 
-    # 이미지 (오른쪽)
+    # 이미지 (오른쪽) - 표와 높이 맞춤
     if img_path and os.path.isfile(img_path):
         try:
             ir = ImageReader(img_path)
             iw, ih = ir.getSize()
             img_x = table_x + col1_w + col2_w + mm(15)
             img_max_w = W - img_x - mm(15)
-            img_max_h = mm(100)
+            table_height = len(rows) * row_h  # 표 전체 높이
+            img_max_h = table_height  # 이미지 높이를 표 높이에 맞춤
             scale = min(img_max_w/iw, img_max_h/ih)
-            c.drawImage(ir, img_x, H - mm(50) - ih*scale, iw*scale, ih*scale)
+            img_y = table_y - table_height  # 표 하단과 맞춤
+            c.drawImage(ir, img_x, img_y, iw*scale, ih*scale)
         except: pass
 
     c.showPage()
