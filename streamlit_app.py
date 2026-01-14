@@ -174,10 +174,9 @@ def compute(K=None, n=None, Vel=None, D=None, Q1=None, C=0.33, V=1.2,
 
 
 def get_pattern_path(result):
-    ratio = result["h"] / result["H"] if result["H"] else 0
-    idx = 1 if ratio <= 0.25 else 2 if ratio <= 0.375 else 3 if ratio <= 0.625 else 4 if ratio <= 0.75 else 5
-    path = os.path.join(os.path.dirname(__file__), "발파프로그램", f"발파패턴{idx}_1.jpg")
-    return (path, idx) if os.path.exists(path) else (None, idx)
+    # 모든 결과에 exam.jpg 사용
+    path = os.path.join(os.path.dirname(__file__), "exam.jpg")
+    return (path, 1) if os.path.exists(path) else (None, 1)
 
 
 def make_pdf(result, img_path):

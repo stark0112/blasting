@@ -333,41 +333,18 @@ class App(tk.Tk):
         return img.crop(bbox) if bbox else img
 
     def _select_pattern_image_by_ratio(self, ratio: float):
-        search_dirs = []
+        # 모든 결과에 exam.jpg 사용
         try:
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            # 발파프로그램 폴더 우선 검색
-            balpa_prog = os.path.join(base_dir, "발파프로그램")
-            if os.path.isdir(balpa_prog): search_dirs.append(balpa_prog)
-            # patterns 폴더
-            preferred = os.path.join(base_dir, "patterns")
-            if os.path.isdir(preferred): search_dirs.append(preferred)
-            # 기본 디렉토리
-            search_dirs.append(base_dir)
-        except Exception: pass
-        bundle = getattr(sys, "_MEIPASS", None)
-        if bundle and os.path.isdir(bundle): search_dirs.append(bundle)
-        search_dirs.append(os.getcwd())
-        # 현재 디렉토리의 발파프로그램 폴더도 검색
-        cwd_balpa = os.path.join(os.getcwd(), "발파프로그램")
-        if os.path.isdir(cwd_balpa) and cwd_balpa not in search_dirs:
-            search_dirs.insert(0, cwd_balpa)
-
-        if   ratio <= 0.25:  idx = 1
-        elif ratio <= 0.375: idx = 2
-        elif ratio <= 0.625: idx = 3
-        elif ratio <= 0.75:  idx = 4
-        else:                idx = 5
-
-        for d in search_dirs:
-            try:
-                for nm in os.listdir(d):
-                    low = nm.lower()
-                    if low.endswith((".jpg",".jpeg",".png",".bmp",".gif")) and (
-                        f"발파패턴{idx}" in nm or f"pattern{idx}" in low or f"blast{idx}" in low
-                    ):
-                        return os.path.join(d, nm)
-            except Exception: pass
+            exam_path = os.path.join(base_dir, "exam.jpg")
+            if os.path.isfile(exam_path):
+                return exam_path
+        except Exception:
+            pass
+        # 현재 디렉토리에서도 검색
+        cwd_exam = os.path.join(os.getcwd(), "exam.jpg")
+        if os.path.isfile(cwd_exam):
+            return cwd_exam
         return None
 
     def _load_and_show_image(self, path):
