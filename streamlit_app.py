@@ -396,6 +396,14 @@ if "result" in st.session_state:
     col1, col2 = st.columns([1, 1.8], vertical_alignment="top")
 
     with col1:
+        st.markdown("""
+        <style>
+        [data-testid="stMarkdownContainer"] table td,
+        [data-testid="stMarkdownContainer"] table th {
+            padding: 14px 10px !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
         st.markdown(f"""
 | 항목 | 값 |
 |------|-----|
