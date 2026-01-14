@@ -17,21 +17,58 @@ st.set_page_config(
     layout="centered"
 )
 
-# iOS/Android 홈화면 아이콘 및 PWA 설정
-st.markdown("""
-<!-- iOS -->
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
-<link rel="apple-touch-icon-precomposed" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="발파설계">
+# iOS/Android 홈화면 아이콘 및 PWA 설정 (JavaScript로 <head>에 직접 주입)
+components.html("""
+<script>
+(function() {
+    var iconUrl = 'https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png';
+    var manifestUrl = 'https://raw.githubusercontent.com/stark0112/blasting/main/manifest.json';
 
-<!-- Android PWA -->
-<link rel="manifest" href="https://raw.githubusercontent.com/stark0112/blasting/main/manifest.json">
-<meta name="theme-color" content="#1f2937">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" type="image/png" sizes="180x180" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
-""", unsafe_allow_html=True)
+    // 기존 apple-touch-icon 제거
+    var existing = document.querySelectorAll('link[rel="apple-touch-icon"], link[rel="apple-touch-icon-precomposed"]');
+    existing.forEach(function(el) { el.remove(); });
+
+    // apple-touch-icon 추가
+    var link1 = document.createElement('link');
+    link1.rel = 'apple-touch-icon';
+    link1.href = iconUrl;
+    document.head.appendChild(link1);
+
+    var link2 = document.createElement('link');
+    link2.rel = 'apple-touch-icon-precomposed';
+    link2.href = iconUrl;
+    document.head.appendChild(link2);
+
+    // iOS PWA 메타 태그
+    var meta1 = document.createElement('meta');
+    meta1.name = 'apple-mobile-web-app-capable';
+    meta1.content = 'yes';
+    document.head.appendChild(meta1);
+
+    var meta2 = document.createElement('meta');
+    meta2.name = 'apple-mobile-web-app-status-bar-style';
+    meta2.content = 'default';
+    document.head.appendChild(meta2);
+
+    var meta3 = document.createElement('meta');
+    meta3.name = 'apple-mobile-web-app-title';
+    meta3.content = '발파설계';
+    document.head.appendChild(meta3);
+
+    // Android manifest
+    var manifest = document.createElement('link');
+    manifest.rel = 'manifest';
+    manifest.href = manifestUrl;
+    document.head.appendChild(manifest);
+
+    // theme-color
+    var theme = document.createElement('meta');
+    theme.name = 'theme-color';
+    theme.content = '#1f2937';
+    document.head.appendChild(theme);
+})();
+</script>
+""", height=0)
 
 # 심플한 CSS + 인쇄용 CSS
 st.markdown("""
