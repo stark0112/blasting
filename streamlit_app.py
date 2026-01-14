@@ -173,7 +173,14 @@ def make_pdf(result, img_path):
     except: return None
 
     font = None
-    for p in ["C:\\Windows\\Fonts\\malgun.ttf", "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"]:
+    font_paths = [
+        "/usr/share/fonts/truetype/nanum/NanumGothic.ttf",
+        "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf",
+        "/usr/share/fonts/opentype/nanum/NanumGothic.otf",
+        "C:\\Windows\\Fonts\\malgun.ttf",
+        "C:\\Windows\\Fonts\\NanumGothic.ttf",
+    ]
+    for p in font_paths:
         if os.path.isfile(p):
             try:
                 pdfmetrics.registerFont(TTFont("KOR", p))
