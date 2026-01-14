@@ -391,10 +391,11 @@ if "result" in st.session_state:
     pa_names = {1:"미진동발파패턴", 2:"정밀진동제어발파", 3:"소규모진동제어발파",
                 4:"중규모진동제어발파", 5:"일반발파", 6:"대규모발파"}
 
-    col1, col2 = st.columns([1, 1.5])
+    st.markdown(f"### {pa_names.get(r['Pa'], '일반발파')}")
+
+    col1, col2 = st.columns([1, 1])
 
     with col1:
-        st.markdown(f"### {pa_names.get(r['Pa'], '일반발파')}")
         st.markdown(f"""
         | 항목 | 값 |
         |------|-----|
