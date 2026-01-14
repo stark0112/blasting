@@ -16,13 +16,20 @@ st.set_page_config(
     layout="centered"
 )
 
-# iOS 홈화면 아이콘 설정 (GitHub raw URL 사용)
+# iOS/Android 홈화면 아이콘 및 PWA 설정
 st.markdown("""
+<!-- iOS -->
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
 <link rel="apple-touch-icon-precomposed" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="발파설계">
+
+<!-- Android PWA -->
+<link rel="manifest" href="https://raw.githubusercontent.com/stark0112/blasting/main/manifest.json">
+<meta name="theme-color" content="#1f2937">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" type="image/png" sizes="180x180" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
 """, unsafe_allow_html=True)
 
 # 심플한 CSS + 인쇄용 CSS

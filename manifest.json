@@ -1,0 +1,18 @@
+{
+  "name": "발파설계",
+  "short_name": "발파설계",
+  "description": "Smart Stem v1 - 발파설계 계산기",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f2937",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
