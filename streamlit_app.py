@@ -393,7 +393,7 @@ if "result" in st.session_state:
 
     st.markdown(f"### {pa_names.get(r['Pa'], '일반발파')}")
 
-    col1, col2 = st.columns([1, 1], vertical_alignment="top")
+    col1, col2 = st.columns([1, 1.8], vertical_alignment="top")
 
     with col1:
         st.markdown(f"""
