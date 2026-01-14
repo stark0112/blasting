@@ -400,7 +400,7 @@ if "result" in st.session_state:
         <style>
         [data-testid="stMarkdownContainer"] table td,
         [data-testid="stMarkdownContainer"] table th {
-            padding: 14px 10px !important;
+            padding: 11px 10px !important;
         }
         </style>
         """, unsafe_allow_html=True)
