@@ -12,9 +12,18 @@ import io
 # 페이지 설정
 st.set_page_config(
     page_title="발파설계",
-    page_icon=None,
+    page_icon="app/_stcore/static/apple-touch-icon.png",
     layout="centered"
 )
+
+# iOS 홈화면 아이콘 설정
+st.markdown("""
+<link rel="apple-touch-icon" href="app/_stcore/static/apple-touch-icon.png">
+<link rel="apple-touch-icon-precomposed" href="app/_stcore/static/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="발파설계">
+""", unsafe_allow_html=True)
 
 # 심플한 CSS + 인쇄용 CSS
 st.markdown("""
