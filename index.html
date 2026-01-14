@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>발파설계</title>
+    <title>스마트스템</title>
 
     <!-- iOS 홈화면 아이콘 -->
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
@@ -12,7 +12,7 @@
     <!-- iOS PWA 설정 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="발파설계">
+    <meta name="apple-mobile-web-app-title" content="스마트스템">
 
     <!-- Android PWA -->
     <link rel="manifest" href="https://raw.githubusercontent.com/stark0112/blasting/main/manifest.json">
@@ -80,14 +80,14 @@
 <body>
     <div class="container">
         <div class="spinner"></div>
-        <h1>발파설계</h1>
+        <h1>스마트스템</h1>
         <p>앱을 불러오는 중...</p>
         <button class="skip-btn" onclick="goNow()">바로가기</button>
-        <p class="countdown" id="countdown">5초 후 자동 이동...</p>
+        <p class="countdown" id="countdown">10초 후 자동 이동...</p>
     </div>
 
     <script>
-        var seconds = 5;
+        var seconds = 10;
         var countdownEl = document.getElementById('countdown');
 
         // 카운트다운 표시
@@ -103,7 +103,7 @@
         // 5초 후 자동 리다이렉트
         var redirectTimeout = setTimeout(function() {
             window.location.href = 'https://blasting-calc.streamlit.app';
-        }, 5000);
+        }, 10000);
 
         // 바로가기 버튼 클릭 시
         function goNow() {
