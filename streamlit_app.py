@@ -8,6 +8,7 @@ import streamlit.components.v1 as components
 import math
 import os
 import io
+from datetime import datetime
 
 # 페이지 설정
 st.set_page_config(
@@ -215,7 +216,12 @@ def make_pdf(result, img_path):
 
     # 타이틀
     setf(16)
-    c.drawCentredString(W/2, H-mm(25), "발파설계결과")
+    c.drawCentredString(W/2, H-mm(25), "스마트스템 발파설계")
+
+    # 출력날짜 (우측 정렬)
+    setf(10)
+    output_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+    c.drawRightString(W - mm(15), H-mm(35), f"출력날짜: {output_date}")
 
     # Pa 이름
     pa_names = {1:"미진동발파패턴", 2:"정밀진동제어발파", 3:"소규모진동제어발파",
@@ -391,11 +397,13 @@ if "result" in st.session_state:
                 img_b64 = base64.b64encode(f.read()).decode()
 
         pa_name = pa_names.get(r['Pa'], '일반발파')
+        output_date = datetime.now().strftime("%Y-%m-%d %H:%M")
         print_html = f'''<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>발파설계결과</title>
+<html><head><meta charset="UTF-8"><title>스마트스템 발파설계</title>
 <style>
 body {{ font-family: 'Malgun Gothic', sans-serif; padding: 30px; }}
-h2 {{ text-align: center; margin-bottom: 10px; }}
+h2 {{ text-align: center; margin-bottom: 5px; }}
+.date-line {{ text-align: right; margin-bottom: 15px; font-size: 12px; color: #555; }}
 h3 {{ margin-bottom: 20px; }}
 .container {{ display: flex; gap: 30px; align-items: flex-start; }}
 .left {{ flex: 0 0 auto; }}
@@ -406,7 +414,8 @@ th {{ background: #f0f0f0; }}
 .right img {{ height: 380px; width: auto; object-fit: contain; }}
 </style>
 </head><body>
-<h2>발파설계결과</h2>
+<h2>스마트스템 발파설계</h2>
+<div class="date-line">출력날짜: {output_date}</div>
 <h3>{pa_name}</h3>
 <div class="container">
 <div class="left">
