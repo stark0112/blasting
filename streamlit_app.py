@@ -12,14 +12,14 @@ import io
 # 페이지 설정
 st.set_page_config(
     page_title="발파설계",
-    page_icon="app/_stcore/static/apple-touch-icon.png",
+    page_icon="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png",
     layout="centered"
 )
 
-# iOS 홈화면 아이콘 설정
+# iOS 홈화면 아이콘 설정 (GitHub raw URL 사용)
 st.markdown("""
-<link rel="apple-touch-icon" href="app/_stcore/static/apple-touch-icon.png">
-<link rel="apple-touch-icon-precomposed" href="app/_stcore/static/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
+<link rel="apple-touch-icon-precomposed" href="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="발파설계">
