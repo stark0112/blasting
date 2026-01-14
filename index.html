@@ -56,6 +56,25 @@
             opacity: 0.8;
             font-size: 14px;
         }
+        .skip-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .skip-btn:hover {
+            background: #2563eb;
+        }
+        .countdown {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -63,13 +82,35 @@
         <div class="spinner"></div>
         <h1>발파설계</h1>
         <p>앱을 불러오는 중...</p>
+        <button class="skip-btn" onclick="goNow()">바로가기</button>
+        <p class="countdown" id="countdown">5초 후 자동 이동...</p>
     </div>
 
     <script>
-        // 잠시 후 Streamlit 앱으로 리다이렉트
-        setTimeout(function() {
+        var seconds = 5;
+        var countdownEl = document.getElementById('countdown');
+
+        // 카운트다운 표시
+        var countdownInterval = setInterval(function() {
+            seconds--;
+            if (seconds > 0) {
+                countdownEl.textContent = seconds + '초 후 자동 이동...';
+            } else {
+                countdownEl.textContent = '이동 중...';
+            }
+        }, 1000);
+
+        // 5초 후 자동 리다이렉트
+        var redirectTimeout = setTimeout(function() {
             window.location.href = 'https://blasting-calc.streamlit.app';
         }, 5000);
+
+        // 바로가기 버튼 클릭 시
+        function goNow() {
+            clearTimeout(redirectTimeout);
+            clearInterval(countdownInterval);
+            window.location.href = 'https://blasting-calc.streamlit.app';
+        }
     </script>
 </body>
 </html>
