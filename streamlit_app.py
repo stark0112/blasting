@@ -393,22 +393,22 @@ if "result" in st.session_state:
 
     st.markdown(f"### {pa_names.get(r['Pa'], '일반발파')}")
 
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns([1, 1], vertical_alignment="top")
 
     with col1:
         st.markdown(f"""
-        | 항목 | 값 |
-        |------|-----|
-        | 저항선 (B) | **{r['B']:.2f} m** |
-        | 공간격 (S) | **{r['S']:.2f} m** |
-        | 전색장 (T) | **{r['T']:.2f} m** |
-        | 장약장 (h) | **{r['h']:.2f} m** |
-        | 천공장 (H) | **{r['H']:.2f} m** |
-        | 계단높이 | **{r['K_step']:.2f} m** |
-        | 장약량/공 (Q) | **{r['Q']} kg** |
-        | 비장약량 (c1) | **{r['c1']} kg/m³** |
-        | 폭약경 (pd) | **{r['pd']} m** |
-        """)
+| 항목 | 값 |
+|------|-----|
+| 저항선 (B) | **{r['B']:.2f} m** |
+| 공간격 (S) | **{r['S']:.2f} m** |
+| 전색장 (T) | **{r['T']:.2f} m** |
+| 장약장 (h) | **{r['h']:.2f} m** |
+| 천공장 (H) | **{r['H']:.2f} m** |
+| 계단높이 | **{r['K_step']:.2f} m** |
+| 장약량/공 (Q) | **{r['Q']} kg** |
+| 비장약량 (c1) | **{r['c1']} kg/m³** |
+| 폭약경 (pd) | **{r['pd']} m** |
+""")
 
     with col2:
         if img and os.path.exists(img):
