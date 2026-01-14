@@ -12,7 +12,7 @@ from datetime import datetime
 
 # 페이지 설정
 st.set_page_config(
-    page_title="발파설계",
+    page_title="Smart Stem",
     page_icon="https://raw.githubusercontent.com/stark0112/blasting/main/apple-touch-icon.png",
     layout="centered"
 )
@@ -52,7 +52,7 @@ components.html("""
 
     var meta3 = document.createElement('meta');
     meta3.name = 'apple-mobile-web-app-title';
-    meta3.content = '발파설계';
+    meta3.content = 'Smart Stem';
     document.head.appendChild(meta3);
 
     // Android manifest
@@ -324,7 +324,7 @@ def make_pdf(result, img_path):
 # ================= UI =================
 # 타이틀 (인쇄시 숨김)
 st.markdown('<div class="no-print">', unsafe_allow_html=True)
-st.title("발파설계")
+st.title("Smart Stem")
 st.caption("Smart Stem v1")
 st.markdown('</div>', unsafe_allow_html=True)
 
