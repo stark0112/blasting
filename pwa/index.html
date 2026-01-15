@@ -681,10 +681,13 @@
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const imgData = canvas.toDataURL('image/png');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = pageWidth - 20; // 좌우 여백 10mm씩
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                const x = (pageWidth - imgWidth) / 2; // 가운데 정렬
 
-                pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
+                pdf.addImage(imgData, 'PNG', x, 15, imgWidth, imgHeight);
 
                 pdf.save('발파설계결과.pdf');
             } catch (e) {
