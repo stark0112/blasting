@@ -1,4 +1,4 @@
-const CACHE_NAME = 'smart-stem-v13';
+const CACHE_NAME = 'smart-stem-v14';
 const urlsToCache = [
   './',
   './index.html',
@@ -8,7 +8,9 @@ const urlsToCache = [
   './images/pattern2.jpg',
   './images/pattern3.jpg',
   './images/pattern4.jpg',
-  './images/pattern5.jpg'
+  './images/pattern5.jpg',
+  './js/jspdf.umd.min.js',
+  './js/html2canvas.min.js'
 ];
 
 // 설치 시 캐시
