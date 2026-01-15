@@ -640,6 +640,8 @@
             printArea.style.background = 'white';
             printArea.style.padding = '30px';
             printArea.style.color = 'black';
+            printArea.style.width = '900px';
+            printArea.style.minWidth = '900px';
 
             // 레이아웃 조정 - 표와 이미지 크기 맞춤
             resultContent.style.display = 'flex';
@@ -647,9 +649,11 @@
             resultContent.style.gap = '40px';
             resultContent.style.alignItems = 'flex-start';
             resultTable.style.flex = '1';
-            resultImage.style.flex = '1.2';
+            resultTable.style.minWidth = '280px';
+            resultImage.style.flex = '1.5';
             resultImage.style.order = '0';
-            img.style.maxHeight = '450px';
+            img.style.maxHeight = '400px';
+            img.style.width = 'auto';
 
             // 테이블 스타일 임시 변경
             const table = printArea.querySelector('table');
@@ -691,11 +695,18 @@
             printArea.style.background = '';
             printArea.style.padding = '';
             printArea.style.color = '';
+            printArea.style.width = '';
+            printArea.style.minWidth = '';
+            resultContent.style.display = '';
+            resultContent.style.flexDirection = '';
             resultContent.style.gap = '';
             resultContent.style.alignItems = '';
             resultTable.style.flex = '';
+            resultTable.style.minWidth = '';
             resultImage.style.flex = '';
+            resultImage.style.order = '';
             img.style.maxHeight = '';
+            img.style.width = '';
             cells.forEach(cell => {
                 cell.style.color = '';
                 cell.style.borderColor = '';
