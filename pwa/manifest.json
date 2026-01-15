@@ -1,0 +1,17 @@
+{
+  "name": "Smart Stem",
+  "short_name": "Smart Stem",
+  "description": "발파설계 계산기",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#ff4b4b",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
