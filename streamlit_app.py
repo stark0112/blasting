@@ -403,14 +403,6 @@ if "result" in st.session_state:
     col1, col2 = st.columns([1, 1.8], vertical_alignment="top")
 
     with col1:
-        st.markdown("""
-        <style>
-        [data-testid="stMarkdownContainer"] table td,
-        [data-testid="stMarkdownContainer"] table th {
-            padding: 9px 10px !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
         st.markdown(f"""
 | 항목 | 값 |
 |------|-----|
@@ -430,6 +422,32 @@ if "result" in st.session_state:
             st.image(img, use_container_width=True)
         else:
             st.info("패턴 이미지 없음")
+
+    # 표와 이미지 높이 맞춤 스크립트
+    st.markdown("""
+    <script>
+    function matchHeights() {
+        const tables = parent.document.querySelectorAll('[data-testid="stMarkdownContainer"] table');
+        const images = parent.document.querySelectorAll('[data-testid="stImage"] img');
+        if (tables.length > 0 && images.length > 0) {
+            const img = images[images.length - 1];
+            const table = tables[tables.length - 1];
+            if (img.complete) {
+                const imgHeight = img.offsetHeight;
+                const rows = table.querySelectorAll('tr');
+                const rowCount = rows.length;
+                const padding = Math.max(4, (imgHeight / rowCount - 20) / 2);
+                table.querySelectorAll('td, th').forEach(cell => {
+                    cell.style.padding = padding + 'px 10px';
+                });
+            } else {
+                img.onload = matchHeights;
+            }
+        }
+    }
+    setTimeout(matchHeights, 500);
+    </script>
+    """, unsafe_allow_html=True)
 
     # 버튼
     st.divider()
