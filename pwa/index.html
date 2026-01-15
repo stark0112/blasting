@@ -81,6 +81,29 @@
             font-size: 11px;
             color: #666;
             cursor: help;
+            position: relative;
+        }
+        .help-icon::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s;
+            margin-bottom: 6px;
+            z-index: 100;
+        }
+        .help-icon:hover::after {
+            opacity: 1;
+            visibility: visible;
         }
         input, select {
             background: #262730;
@@ -365,14 +388,14 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>공당장약량 (kg)</label>
-                    <span class="help-icon" title="직접입력 또는 자동계산">?</span>
+                    <span class="help-icon" data-tooltip="직접입력 또는 자동계산">?</span>
                 </div>
                 <input type="text" id="Q1" placeholder="미입력시 자동계산">
             </div>
             <div class="form-group">
                 <div class="label-row">
                     <label>보안물건 거리 (m)</label>
-                    <span class="help-icon" title="진동을 고려하고 싶은 경우 입력">?</span>
+                    <span class="help-icon" data-tooltip="진동을 고려하고 싶은 경우 입력">?</span>
                 </div>
                 <input type="text" id="D" placeholder="미입력시 무시">
             </div>
@@ -382,7 +405,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>K값</label>
-                    <span class="help-icon" title="시험발파추정식 변경 가능">?</span>
+                    <span class="help-icon" data-tooltip="시험발파추정식 변경 가능">?</span>
                 </div>
                 <div class="number-input">
                     <input type="number" id="K" value="200.00" step="0.01">
@@ -393,7 +416,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>발파계수</label>
-                    <span class="help-icon" title="암질에 따라 풍화암 0.25 ~ 경암 0.5">?</span>
+                    <span class="help-icon" data-tooltip="암질에 따라 풍화암 0.25 ~ 경암 0.5">?</span>
                 </div>
                 <div class="number-input">
                     <input type="number" id="C" value="0.33" step="0.01">
@@ -407,7 +430,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>n값</label>
-                    <span class="help-icon" title="시험발파추정식 변경 가능">?</span>
+                    <span class="help-icon" data-tooltip="시험발파추정식 변경 가능">?</span>
                 </div>
                 <div class="number-input">
                     <input type="number" id="n" value="-1.60" step="0.01">
@@ -418,7 +441,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>공간격비율</label>
-                    <span class="help-icon" title="보통 1.0 ~ 1.25 범위 설정함">?</span>
+                    <span class="help-icon" data-tooltip="보통 1.0 ~ 1.25 범위 설정함">?</span>
                 </div>
                 <div class="number-input">
                     <input type="number" id="V" value="1.20" step="0.01">
@@ -432,7 +455,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>허용진동기준치 (cm/sec)</label>
-                    <span class="help-icon" title="보안물건의 허용기준치 입력">?</span>
+                    <span class="help-icon" data-tooltip="보안물건의 허용기준치 입력">?</span>
                 </div>
                 <div class="number-input">
                     <input type="number" id="Vel" value="0.30" step="0.01">
@@ -443,7 +466,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>폭약직경</label>
-                    <span class="help-icon" title="단위(m), 선택하지 않으면 자동선택">?</span>
+                    <span class="help-icon" data-tooltip="단위(m), 선택하지 않으면 자동선택">?</span>
                 </div>
                 <select id="pd_sel">
                     <option value="auto">자동</option>
@@ -460,7 +483,7 @@
             <div class="form-group">
                 <div class="label-row">
                     <label>폭약직경 직접입력 (m)</label>
-                    <span class="help-icon" title="위에서 '직접입력' 선택 시 이 값이 사용됩니다">?</span>
+                    <span class="help-icon" data-tooltip="위에서 '직접입력' 선택 시 이 값이 사용됩니다">?</span>
                 </div>
                 <input type="text" id="pd_custom" placeholder="직접입력 선택시 입력">
             </div>
