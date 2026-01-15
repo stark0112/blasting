@@ -646,13 +646,14 @@
             // 레이아웃 조정 - 표와 이미지 크기 맞춤
             resultContent.style.display = 'flex';
             resultContent.style.flexDirection = 'row';
-            resultContent.style.gap = '60px';
+            resultContent.style.gap = '50px';
             resultContent.style.alignItems = 'flex-start';
-            resultTable.style.flex = '1';
-            resultTable.style.minWidth = '280px';
-            resultImage.style.flex = '1.5';
+            resultContent.style.justifyContent = 'center';
+            resultTable.style.flex = '0 0 auto';
+            resultTable.style.width = '250px';
+            resultImage.style.flex = '0 0 auto';
             resultImage.style.order = '0';
-            img.style.maxHeight = '400px';
+            img.style.height = '350px';
             img.style.width = 'auto';
 
             // 테이블 스타일 임시 변경
@@ -705,11 +706,12 @@
             resultContent.style.flexDirection = '';
             resultContent.style.gap = '';
             resultContent.style.alignItems = '';
+            resultContent.style.justifyContent = '';
             resultTable.style.flex = '';
-            resultTable.style.minWidth = '';
+            resultTable.style.width = '';
             resultImage.style.flex = '';
             resultImage.style.order = '';
-            img.style.maxHeight = '';
+            img.style.height = '';
             img.style.width = '';
             cells.forEach(cell => {
                 cell.style.color = '';
