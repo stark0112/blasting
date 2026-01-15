@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Smart Stem">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Smart Stem</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0e1117;
+            color: #fafafa;
+            min-height: 100vh;
+            padding: 16px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .form-container {
+            background: #262730;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #b0b0b0;
+        }
+        input, select {
+            background: #0e1117;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 10px;
+            color: #fafafa;
+            font-size: 16px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff4b4b;
+        }
+        .radio-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .radio-btn {
+            padding: 8px 12px;
+            background: #0e1117;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .radio-btn.active {
+            background: #ff4b4b;
+            border-color: #ff4b4b;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ff4b4b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        button:active {
+            background: #cc3c3c;
+        }
+        .result-container {
+            display: none;
+            margin-top: 16px;
+        }
+        .result-container.show {
+            display: block;
+        }
+        .result-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .result-content {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .result-table {
+            flex: 1;
+            min-width: 0;
+        }
+        .result-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #444;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        .result-table th {
+            background: #262730;
+        }
+        .result-table td:last-child {
+            font-weight: bold;
+            text-align: right;
+        }
+        .result-image {
+            flex: 1.5;
+            min-width: 0;
+        }
+        .result-image img {
+            width: 100%;
+            border-radius: 4px;
+        }
+        .warning {
+            background: #4a3f00;
+            border: 1px solid #ffc107;
+            color: #ffc107;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .divider {
+            height: 1px;
+            background: #444;
+            margin: 16px 0;
+        }
+        @media (max-width: 600px) {
+            .result-content {
+                flex-direction: column;
+            }
+            .result-image {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Smart Stem</h1>
+
+    <div class="form-container">
+        <div class="form-row">
+            <div class="form-group">
+                <label>지발당장약량 (kg)</label>
+                <input type="text" id="Q1" placeholder="미입력시 자동계산">
+            </div>
+            <div class="form-group">
+                <label>K값</label>
+                <input type="number" id="K" value="200" step="any">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>n값</label>
+                <input type="number" id="n" value="-1.60" step="any">
+            </div>
+            <div class="form-group">
+                <label>허용진동기준치 (cm/sec)</label>
+                <input type="number" id="Vel" value="0.30" step="any">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>보안물건 거리 (m)</label>
+                <input type="text" id="D" placeholder="미입력시 무시">
+            </div>
+            <div class="form-group">
+                <label>발파계수</label>
+                <input type="number" id="C" value="0.33" step="any">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>공간격비율</label>
+                <input type="number" id="V" value="1.2" step="any">
+            </div>
+            <div class="form-group">
+                <label>폭약직경</label>
+                <select id="pd_sel">
+                    <option value="auto">자동</option>
+                    <option value="0.032">0.032</option>
+                    <option value="0.050">0.050</option>
+                    <option value="0.065">0.065</option>
+                    <option value="custom">직접입력</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row" id="pd_custom_row" style="display:none;">
+            <div class="form-group">
+                <label>폭약직경 직접입력 (m)</label>
+                <input type="text" id="pd_custom" placeholder="직접입력 선택시 입력">
+            </div>
+            <div></div>
+        </div>
+
+        <label style="margin-bottom:8px;display:block;">목적</label>
+        <div class="radio-group">
+            <div class="radio-btn active" data-value="0.7">비산제어(0.7)</div>
+            <div class="radio-btn" data-value="0.55">파쇄도개선(0.55)</div>
+            <div class="radio-btn" data-value="0.5">광산채석장(0.5)</div>
+        </div>
+
+        <button onclick="calculate()">계산</button>
+    </div>
+
+    <div class="result-container" id="result">
+        <div class="divider"></div>
+        <div class="warning" id="warning" style="display:none;"></div>
+        <div class="result-title" id="result-title"></div>
+        <div class="result-content">
+            <div class="result-table">
+                <table>
+                    <tr><th>항목</th><th>값</th></tr>
+                    <tr><td>저항선 (B)</td><td id="res-B"></td></tr>
+                    <tr><td>공간격 (S)</td><td id="res-S"></td></tr>
+                    <tr><td>전색장 (T)</td><td id="res-T"></td></tr>
+                    <tr><td>장약장 (h)</td><td id="res-h"></td></tr>
+                    <tr><td>천공장 (H)</td><td id="res-H"></td></tr>
+                    <tr><td>계단높이</td><td id="res-K_step"></td></tr>
+                    <tr><td>장약량/공 (Q)</td><td id="res-Q"></td></tr>
+                    <tr><td>비장약량 (c1)</td><td id="res-c1"></td></tr>
+                    <tr><td>폭약경 (pd)</td><td id="res-pd"></td></tr>
+                </table>
+            </div>
+            <div class="result-image">
+                <img id="result-img" src="" alt="발파패턴">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 폭약직경 직접입력 표시/숨김
+        document.getElementById('pd_sel').addEventListener('change', function() {
+            document.getElementById('pd_custom_row').style.display =
+                this.value === 'custom' ? 'grid' : 'none';
+        });
+
+        // 라디오 버튼 선택
+        document.querySelectorAll('.radio-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 반올림 함수
+        function rnd(x, n) {
+            return Math.round(x * Math.pow(10, n)) / Math.pow(10, n);
+        }
+
+        // 계산 함수
+        function compute(params) {
+            const { K, n, Vel, D, Q1, C, V, pd_choice, pd_text, k1 } = params;
+            const V1_theory = 1.2;
+
+            const have_all = K && n && Vel && D;
+            let Q2 = have_all ? rnd(Math.pow(D, 2) * Math.pow(Vel / K, 2 / (-n)), 2) : null;
+
+            let Q3;
+            if (Q1 === null) {
+                if (!have_all) {
+                    throw new Error("Q1이 비어있을 때는 K, n, Vel, D를 모두 입력해야 합니다.");
+                }
+                Q3 = Q2;
+            } else {
+                Q3 = have_all ? rnd(Math.min(Q1, Q2), 2) : rnd(Q1, 2);
+            }
+
+            // Pa 결정
+            let Pa;
+            if (Q3 < 0.125) Pa = 1;
+            else if (Q3 < 0.5) Pa = 2;
+            else if (Q3 < 1.6) Pa = 3;
+            else if (Q3 < 5) Pa = 4;
+            else if (Q3 < 15) Pa = 5;
+            else Pa = 6;
+
+            // pd 결정
+            let pd = null;
+            let pd_from_custom = false;
+            if (pd_text) {
+                pd = parseFloat(pd_text);
+                if (!isNaN(pd)) pd_from_custom = true;
+                else pd = null;
+            }
+            if (pd === null && pd_choice) {
+                pd = parseFloat(pd_choice);
+            }
+            if (pd === null) {
+                if ([1, 2, 3].includes(Pa)) pd = 0.032;
+                else if ([4, 5].includes(Pa)) pd = 0.050;
+                else pd = 0.076;
+            }
+            pd = rnd(pd, 3);
+
+            let pd_msg = null;
+            if ([1, 2].includes(Pa) && (pd_from_custom || pd_choice) && pd > 0.032) {
+                pd = 0.032;
+                pd_msg = "폭약경이 적합하지 않아 0.032m로 조정되었습니다.";
+            }
+
+            // anfo 함수
+            function anfo(p) {
+                return [(1000 * 0.815 * 3.1415 * (p * p)) / 4.0, 1.0, 0.1];
+            }
+            const tol = 1e-9;
+
+            // W1, h1, nu 결정
+            let W1, h1, nu;
+            if (Pa === 1) { W1 = 0.12; h1 = 0.2; nu = 0.5; }
+            else if (Pa === 2) { W1 = 0.25; h1 = 0.295; nu = 0.5; }
+            else { W1 = 0.25; h1 = 0.295; nu = 0.5; }
+
+            if (Pa >= 3) {
+                if (pd_from_custom) {
+                    [W1, h1, nu] = anfo(pd);
+                } else if (Math.abs(pd - 0.050) < tol) {
+                    W1 = 1.0; h1 = 0.42; nu = 0.5;
+                } else if (Math.abs(pd - 0.065) < tol) {
+                    W1 = 2.0; h1 = 0.52; nu = Pa < 6 ? 0.5 : 1.0;
+                }
+            }
+
+            // Q, h 계산
+            let Q, h;
+            if (pd_from_custom && Q3 >= 0.5) {
+                Q = Q3;
+                h = h1 * (Q3 / W1);
+            } else {
+                let Q4 = W1 <= 2.0 ? Math.floor((Q3 / W1) * 2.0) : Math.floor(Q3);
+                Q = W1 <= 2.0 ? (Q4 / 2.0) * W1 : Q4;
+                h = 0.95 * h1 * Q / W1;
+            }
+
+            // B, S 계산
+            const denom = C * V1_theory * (0.7 * h + 0.77 * Math.pow(Q, 1/3) + 10 * pd);
+            if (denom <= 0) throw new Error("계산 오류");
+
+            const B1 = 0.94 * Math.sqrt(Q / denom);
+            const S1 = V1_theory * B1;
+
+            let B, S;
+            if (Math.abs(V - 1.2) < 1e-12) {
+                B = rnd(B1, 2);
+                S = rnd(S1, 2);
+            } else {
+                B = Math.sqrt((B1 * S1) / V);
+                S = V * B;
+                B = rnd(B, 2);
+                S = rnd(S, 2);
+            }
+
+            // T, H, K_step, c1 계산
+            const T = rnd((Pa === 1 ? k1 * Math.pow(pd, -0.25) : k1 * Math.pow(pd, -0.18)) * Math.sqrt(B * S), 2);
+            const H = rnd(T + h, 2);
+            const K_step = rnd(H - 0.2 * B, 2);
+            const c1 = rnd(B * S * K_step ? Q / (B * S * K_step) : 0, 2);
+
+            return {
+                B, S, T, h: rnd(H - T, 2), H, Q, c1, K_step, Pa, pd, _msg: pd_msg
+            };
+        }
+
+        // 패턴 이름
+        const paNames = {
+            1: "미진동발파패턴",
+            2: "정밀진동제어발파",
+            3: "소규모진동제어발파",
+            4: "중규모진동제어발파",
+            5: "일반발파",
+            6: "대규모발파"
+        };
+
+        // 패턴 이미지 매핑
+        const patternMap = {1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5};
+
+        // 계산 실행
+        function calculate() {
+            try {
+                const Q1_val = document.getElementById('Q1').value.trim();
+                const D_val = document.getElementById('D').value.trim();
+                const pd_sel = document.getElementById('pd_sel').value;
+                const pd_custom = document.getElementById('pd_custom').value.trim();
+                const k1 = parseFloat(document.querySelector('.radio-btn.active').dataset.value);
+
+                const params = {
+                    K: parseFloat(document.getElementById('K').value),
+                    n: parseFloat(document.getElementById('n').value),
+                    Vel: parseFloat(document.getElementById('Vel').value),
+                    D: D_val ? parseFloat(D_val) : null,
+                    Q1: Q1_val ? parseFloat(Q1_val) : null,
+                    C: parseFloat(document.getElementById('C').value),
+                    V: parseFloat(document.getElementById('V').value),
+                    pd_choice: ['0.032', '0.050', '0.065'].includes(pd_sel) ? pd_sel : null,
+                    pd_text: pd_sel === 'custom' ? pd_custom : null,
+                    k1: k1
+                };
+
+                const result = compute(params);
+
+                // 결과 표시
+                document.getElementById('result-title').textContent = paNames[result.Pa] || '일반발파';
+                document.getElementById('res-B').textContent = result.B.toFixed(2) + ' m';
+                document.getElementById('res-S').textContent = result.S.toFixed(2) + ' m';
+                document.getElementById('res-T').textContent = result.T.toFixed(2) + ' m';
+                document.getElementById('res-h').textContent = result.h.toFixed(2) + ' m';
+                document.getElementById('res-H').textContent = result.H.toFixed(2) + ' m';
+                document.getElementById('res-K_step').textContent = result.K_step.toFixed(2) + ' m';
+                document.getElementById('res-Q').textContent = result.Q + ' kg';
+                document.getElementById('res-c1').textContent = result.c1 + ' kg/m³';
+                document.getElementById('res-pd').textContent = result.pd + ' m';
+
+                // 이미지
+                const imgIdx = patternMap[result.Pa] || 4;
+                document.getElementById('result-img').src = `images/pattern${imgIdx}.jpg`;
+
+                // 경고 메시지
+                const warning = document.getElementById('warning');
+                if (result._msg) {
+                    warning.textContent = result._msg;
+                    warning.style.display = 'block';
+                } else {
+                    warning.style.display = 'none';
+                }
+
+                document.getElementById('result').classList.add('show');
+                document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (e) {
+                alert('오류: ' + e.message);
+            }
+        }
+
+        // Service Worker 등록
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
