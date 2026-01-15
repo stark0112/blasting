@@ -685,7 +685,18 @@
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
-                pdf.save('발파설계결과.pdf');
+
+                // 모바일 체크
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    // 모바일: 새 창에서 PDF 열기
+                    const pdfBlob = pdf.output('blob');
+                    const blobUrl = URL.createObjectURL(pdfBlob);
+                    window.open(blobUrl, '_blank');
+                } else {
+                    // PC: 직접 다운로드
+                    pdf.save('발파설계결과.pdf');
+                }
             } catch (e) {
                 alert('PDF 저장 오류: ' + e.message);
             }
