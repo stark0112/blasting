@@ -10,6 +10,7 @@
     <link rel="manifest" href="manifest.json">
     <title>Smart Stem</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -217,26 +218,58 @@
                 flex-direction: column;
             }
         }
+        .print-header {
+            display: none;
+        }
+        .print-title {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .print-date {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+            margin-bottom: 16px;
+        }
         @media print {
             body {
-                background: white;
-                color: black;
+                background: white !important;
+                color: black !important;
                 padding: 20px;
+                max-width: none;
             }
-            .form-container, .calc-btn, .btn-row, .divider {
+            h1, .form-container, .calc-btn, .btn-row, .divider, .warning {
                 display: none !important;
             }
             .result-container {
                 display: block !important;
             }
+            .print-header {
+                display: block !important;
+            }
+            .print-title {
+                color: black;
+            }
+            .print-date {
+                color: #333;
+            }
             .result-title {
                 color: black;
+                font-size: 18px;
+            }
+            .result-content {
+                gap: 30px;
             }
             .result-table th, .result-table td {
                 border-color: #333;
+                color: black;
+                padding: 10px;
             }
             .result-table th {
                 background: #f0f0f0;
+            }
+            .result-image img {
+                max-height: 300px;
             }
         }
     </style>
@@ -321,26 +354,35 @@
     <div class="result-container" id="result">
         <div class="divider"></div>
         <div class="warning" id="warning" style="display:none;"></div>
-        <div class="result-title" id="result-title"></div>
-        <div class="result-content">
-            <div class="result-table">
-                <table>
-                    <tr><th>항목</th><th>값</th></tr>
-                    <tr><td>저항선 (B)</td><td id="res-B"></td></tr>
-                    <tr><td>공간격 (S)</td><td id="res-S"></td></tr>
-                    <tr><td>전색장 (T)</td><td id="res-T"></td></tr>
-                    <tr><td>장약장 (h)</td><td id="res-h"></td></tr>
-                    <tr><td>천공장 (H)</td><td id="res-H"></td></tr>
-                    <tr><td>계단높이</td><td id="res-K_step"></td></tr>
-                    <tr><td>장약량/공 (Q)</td><td id="res-Q"></td></tr>
-                    <tr><td>비장약량 (c1)</td><td id="res-c1"></td></tr>
-                    <tr><td>폭약경 (pd)</td><td id="res-pd"></td></tr>
-                </table>
+
+        <!-- 인쇄/PDF용 영역 -->
+        <div id="print-area">
+            <div class="print-header">
+                <h2 class="print-title">스마트스템 발파설계</h2>
+                <div class="print-date" id="print-date"></div>
             </div>
-            <div class="result-image">
-                <img id="result-img" src="" alt="발파패턴">
+            <div class="result-title" id="result-title"></div>
+            <div class="result-content">
+                <div class="result-table">
+                    <table>
+                        <tr><th>항목</th><th>값</th></tr>
+                        <tr><td>저항선 (B)</td><td id="res-B"></td></tr>
+                        <tr><td>공간격 (S)</td><td id="res-S"></td></tr>
+                        <tr><td>전색장 (T)</td><td id="res-T"></td></tr>
+                        <tr><td>장약장 (h)</td><td id="res-h"></td></tr>
+                        <tr><td>천공장 (H)</td><td id="res-H"></td></tr>
+                        <tr><td>계단높이</td><td id="res-K_step"></td></tr>
+                        <tr><td>장약량/공 (Q)</td><td id="res-Q"></td></tr>
+                        <tr><td>비장약량 (c1)</td><td id="res-c1"></td></tr>
+                        <tr><td>폭약경 (pd)</td><td id="res-pd"></td></tr>
+                    </table>
+                </div>
+                <div class="result-image">
+                    <img id="result-img" src="" alt="발파패턴" crossorigin="anonymous">
+                </div>
             </div>
         </div>
+
         <div class="btn-row">
             <button class="action-btn" onclick="savePDF()">PDF 저장</button>
             <button class="action-btn" onclick="printResult()">인쇄</button>
@@ -554,74 +596,67 @@
         }
 
         // PDF 저장
-        function savePDF() {
+        async function savePDF() {
             if (!currentResult) {
                 alert('먼저 계산을 실행해주세요.');
                 return;
             }
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const r = currentResult;
-
-            // 타이틀
-            doc.setFontSize(18);
-            doc.text('Smart Stem 발파설계', 105, 20, { align: 'center' });
-
-            // 출력날짜
-            doc.setFontSize(10);
+            // 날짜 업데이트
             const now = new Date();
-            const dateStr = now.toLocaleString('ko-KR');
-            doc.text('출력날짜: ' + dateStr, 190, 30, { align: 'right' });
+            document.getElementById('print-date').textContent = '출력날짜: ' + now.toLocaleString('ko-KR');
 
-            // 패턴명
-            doc.setFontSize(14);
-            doc.text(paNames[r.Pa] || '일반발파', 20, 40);
+            // print-header 표시
+            const printHeader = document.querySelector('.print-header');
+            const printArea = document.getElementById('print-area');
+            printHeader.style.display = 'block';
+            printArea.style.background = 'white';
+            printArea.style.padding = '20px';
+            printArea.style.color = 'black';
 
-            // 테이블
-            const tableData = [
-                ['저항선 (B)', r.B.toFixed(2) + ' m'],
-                ['공간격 (S)', r.S.toFixed(2) + ' m'],
-                ['전색장 (T)', r.T.toFixed(2) + ' m'],
-                ['장약장 (h)', r.h.toFixed(2) + ' m'],
-                ['천공장 (H)', r.H.toFixed(2) + ' m'],
-                ['계단높이', r.K_step.toFixed(2) + ' m'],
-                ['장약량/공 (Q)', r.Q + ' kg'],
-                ['비장약량 (c1)', r.c1 + ' kg/m³'],
-                ['폭약경 (pd)', r.pd + ' m']
-            ];
-
-            let y = 50;
-            doc.setFontSize(10);
-            doc.setDrawColor(100);
-
-            // 헤더
-            doc.setFillColor(240, 240, 240);
-            doc.rect(20, y, 35, 8, 'F');
-            doc.rect(55, y, 30, 8, 'F');
-            doc.rect(20, y, 35, 8, 'S');
-            doc.rect(55, y, 30, 8, 'S');
-            doc.text('항목', 22, y + 6);
-            doc.text('값', 57, y + 6);
-            y += 8;
-
-            // 데이터
-            tableData.forEach(row => {
-                doc.rect(20, y, 35, 8, 'S');
-                doc.rect(55, y, 30, 8, 'S');
-                doc.text(row[0], 22, y + 6);
-                doc.text(row[1], 57, y + 6);
-                y += 8;
+            // 테이블 스타일 임시 변경
+            const table = printArea.querySelector('table');
+            const cells = table.querySelectorAll('th, td');
+            cells.forEach(cell => {
+                cell.style.color = 'black';
+                cell.style.borderColor = '#333';
             });
+            const headers = table.querySelectorAll('th');
+            headers.forEach(th => th.style.background = '#f0f0f0');
 
-            // 이미지
-            if (currentImgData) {
-                const imgWidth = 100;
-                const imgHeight = 80;
-                doc.addImage(currentImgData, 'JPEG', 95, 50, imgWidth, imgHeight);
+            const resultTitle = printArea.querySelector('.result-title');
+            resultTitle.style.color = 'black';
+
+            try {
+                const canvas = await html2canvas(printArea, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff'
+                });
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
+                pdf.save('발파설계결과.pdf');
+            } catch (e) {
+                alert('PDF 저장 오류: ' + e.message);
             }
 
-            doc.save('발파설계결과.pdf');
+            // 스타일 복원
+            printHeader.style.display = 'none';
+            printArea.style.background = '';
+            printArea.style.padding = '';
+            printArea.style.color = '';
+            cells.forEach(cell => {
+                cell.style.color = '';
+                cell.style.borderColor = '';
+            });
+            headers.forEach(th => th.style.background = '');
+            resultTitle.style.color = '';
         }
 
         // 인쇄
@@ -630,6 +665,9 @@
                 alert('먼저 계산을 실행해주세요.');
                 return;
             }
+            // 날짜 업데이트
+            const now = new Date();
+            document.getElementById('print-date').textContent = '출력날짜: ' + now.toLocaleString('ko-KR');
             window.print();
         }
 
