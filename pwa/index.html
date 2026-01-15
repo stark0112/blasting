@@ -688,19 +688,21 @@
 
                 // 모바일 체크
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) {
-                    // 모바일: 링크로 다운로드
+                if (isMobile && navigator.share && navigator.canShare) {
+                    // 모바일: 공유 기능으로 저장
                     const pdfBlob = pdf.output('blob');
-                    const blobUrl = URL.createObjectURL(pdfBlob);
-                    const link = document.createElement('a');
-                    link.href = blobUrl;
-                    link.download = '발파설계결과.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+                    const file = new File([pdfBlob], '발파설계결과.pdf', { type: 'application/pdf' });
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: '발파설계결과',
+                            text: '스마트스템 발파설계 결과'
+                        });
+                    } else {
+                        pdf.save('발파설계결과.pdf');
+                    }
                 } else {
-                    // PC: 직접 다운로드
+                    // PC 또는 공유 미지원: 직접 다운로드
                     pdf.save('발파설계결과.pdf');
                 }
             } catch (e) {
