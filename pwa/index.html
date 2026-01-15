@@ -27,92 +27,140 @@
             margin: 0 auto;
         }
         h1 {
-            font-size: 32px;
-            margin-bottom: 24px;
-            font-weight: 600;
+            font-size: 36px;
+            margin-bottom: 8px;
+            font-weight: 700;
             text-align: center;
         }
+        .version {
+            font-size: 14px;
+            color: #808080;
+            margin-bottom: 24px;
+        }
         .form-container {
-            background: #262730;
-            border-radius: 8px;
-            padding: 20px;
+            background: #1a1a24;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
             margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #fafafa;
         }
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         .form-group {
             display: flex;
             flex-direction: column;
         }
+        .label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
         label {
             font-size: 14px;
-            margin-bottom: 6px;
             color: #fafafa;
         }
-        .help-text {
-            font-size: 12px;
-            color: #808080;
-            margin-top: 4px;
+        .help-icon {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #666;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #666;
+            cursor: help;
         }
         input, select {
-            background: #0e1117;
+            background: #262730;
             border: 1px solid #444;
-            border-radius: 4px;
-            padding: 10px 12px;
+            border-radius: 8px;
+            padding: 12px 14px;
             color: #fafafa;
             font-size: 16px;
             width: 100%;
         }
         input:focus, select:focus {
             outline: none;
-            border-color: #ff4b4b;
+            border-color: #666;
         }
         input::placeholder {
             color: #666;
         }
-        .radio-group {
+        .number-input {
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-        .radio-btn {
-            padding: 8px 16px;
-            background: #0e1117;
+            align-items: center;
+            background: #262730;
             border: 1px solid #444;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            overflow: hidden;
         }
-        .radio-btn:hover {
-            border-color: #ff4b4b;
-        }
-        .radio-btn.active {
-            background: #ff4b4b;
-            border-color: #ff4b4b;
-        }
-        .calc-btn {
-            width: 100%;
-            padding: 12px;
-            background: #ff4b4b;
-            color: white;
+        .number-input input {
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 0;
+            flex: 1;
+        }
+        .num-btn {
+            width: 40px;
+            height: 44px;
+            background: transparent;
+            border: none;
+            border-left: 1px solid #444;
+            color: #fafafa;
+            font-size: 18px;
             cursor: pointer;
             transition: background 0.2s;
         }
+        .num-btn:hover {
+            background: #333;
+        }
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .radio-label input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ff4b4b;
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #fafafa;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
         .calc-btn:hover {
-            background: #ff3333;
+            background: #333;
+            border-color: #666;
         }
         .calc-btn:active {
-            background: #cc3c3c;
+            background: #262730;
         }
         .result-container {
             display: none;
@@ -203,6 +251,13 @@
         .action-btn:active {
             background: #1a1a2e;
         }
+        .app-footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            padding: 24px 0;
+            margin-top: 20px;
+        }
         @media (max-width: 768px) {
             body {
                 padding: 12px;
@@ -249,7 +304,7 @@
                 padding: 20px;
                 max-width: none;
             }
-            h1, .form-container, .calc-btn, .btn-row, .divider, .warning {
+            h1, .form-container, .calc-btn, .btn-row, .divider, .warning, .app-footer, .version {
                 display: none !important;
             }
             .result-container {
@@ -301,52 +356,95 @@
 </head>
 <body>
     <h1>Smart Stem</h1>
+    <p class="version">Smart Stem v1</p>
 
     <div class="form-container">
+        <h2 class="section-title">입력값</h2>
+
         <div class="form-row">
             <div class="form-group">
-                <label>지발당장약량 (kg)</label>
+                <div class="label-row">
+                    <label>공당장약량 (kg)</label>
+                    <span class="help-icon" title="직접입력 또는 자동계산">?</span>
+                </div>
                 <input type="text" id="Q1" placeholder="미입력시 자동계산">
-                <div class="help-text">직접입력 또는 자동계산</div>
             </div>
             <div class="form-group">
-                <label>K값</label>
-                <input type="number" id="K" value="200" step="any">
-                <div class="help-text">시험발파추정식 변경 가능</div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label>n값</label>
-                <input type="number" id="n" value="-1.60" step="any">
-                <div class="help-text">시험발파추정식 변경 가능</div>
-            </div>
-            <div class="form-group">
-                <label>허용진동기준치 (cm/sec)</label>
-                <input type="number" id="Vel" value="0.30" step="any">
-                <div class="help-text">보안물건의 허용기준치 입력</div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label>보안물건 거리 (m)</label>
+                <div class="label-row">
+                    <label>보안물건 거리 (m)</label>
+                    <span class="help-icon" title="진동을 고려하고 싶은 경우 입력">?</span>
+                </div>
                 <input type="text" id="D" placeholder="미입력시 무시">
-                <div class="help-text">진동을 고려하고 싶은 경우 입력</div>
-            </div>
-            <div class="form-group">
-                <label>발파계수</label>
-                <input type="number" id="C" value="0.33" step="any">
-                <div class="help-text">암질에 따라 풍화암 0.25 ~ 경암 0.5</div>
             </div>
         </div>
+
         <div class="form-row">
             <div class="form-group">
-                <label>공간격비율</label>
-                <input type="number" id="V" value="1.2" step="any">
-                <div class="help-text">보통 1.0 ~ 1.25 범위 설정함</div>
+                <div class="label-row">
+                    <label>K값</label>
+                    <span class="help-icon" title="시험발파추정식 변경 가능">?</span>
+                </div>
+                <div class="number-input">
+                    <input type="number" id="K" value="200.00" step="0.01">
+                    <button class="num-btn minus" onclick="adjustValue('K', -1)">−</button>
+                    <button class="num-btn plus" onclick="adjustValue('K', 1)">+</button>
+                </div>
             </div>
             <div class="form-group">
-                <label>폭약직경</label>
+                <div class="label-row">
+                    <label>발파계수</label>
+                    <span class="help-icon" title="암질에 따라 풍화암 0.25 ~ 경암 0.5">?</span>
+                </div>
+                <div class="number-input">
+                    <input type="number" id="C" value="0.33" step="0.01">
+                    <button class="num-btn minus" onclick="adjustValue('C', -0.01)">−</button>
+                    <button class="num-btn plus" onclick="adjustValue('C', 0.01)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-row">
+                    <label>n값</label>
+                    <span class="help-icon" title="시험발파추정식 변경 가능">?</span>
+                </div>
+                <div class="number-input">
+                    <input type="number" id="n" value="-1.60" step="0.01">
+                    <button class="num-btn minus" onclick="adjustValue('n', -0.01)">−</button>
+                    <button class="num-btn plus" onclick="adjustValue('n', 0.01)">+</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>공간격비율</label>
+                    <span class="help-icon" title="보통 1.0 ~ 1.25 범위 설정함">?</span>
+                </div>
+                <div class="number-input">
+                    <input type="number" id="V" value="1.20" step="0.01">
+                    <button class="num-btn minus" onclick="adjustValue('V', -0.01)">−</button>
+                    <button class="num-btn plus" onclick="adjustValue('V', 0.01)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <div class="label-row">
+                    <label>허용진동기준치 (cm/sec)</label>
+                    <span class="help-icon" title="보안물건의 허용기준치 입력">?</span>
+                </div>
+                <div class="number-input">
+                    <input type="number" id="Vel" value="0.30" step="0.01">
+                    <button class="num-btn minus" onclick="adjustValue('Vel', -0.01)">−</button>
+                    <button class="num-btn plus" onclick="adjustValue('Vel', 0.01)">+</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>폭약직경</label>
+                    <span class="help-icon" title="단위(m), 선택하지 않으면 자동선택">?</span>
+                </div>
                 <select id="pd_sel">
                     <option value="auto">자동</option>
                     <option value="0.032">0.032</option>
@@ -354,23 +452,36 @@
                     <option value="0.065">0.065</option>
                     <option value="custom">직접입력</option>
                 </select>
-                <div class="help-text">단위(m), 선택하지 않으면 자동선택</div>
             </div>
-        </div>
-        <div class="form-row" id="pd_custom_row" style="display:none;">
-            <div class="form-group">
-                <label>폭약직경 직접입력 (m)</label>
-                <input type="text" id="pd_custom" placeholder="직접입력 선택시 입력">
-                <div class="help-text">위에서 '직접입력' 선택 시 이 값이 사용됩니다</div>
-            </div>
-            <div></div>
         </div>
 
-        <label style="margin-bottom:8px;display:block;">목적</label>
+        <div class="form-row">
+            <div></div>
+            <div class="form-group">
+                <div class="label-row">
+                    <label>폭약직경 직접입력 (m)</label>
+                    <span class="help-icon" title="위에서 '직접입력' 선택 시 이 값이 사용됩니다">?</span>
+                </div>
+                <input type="text" id="pd_custom" placeholder="직접입력 선택시 입력">
+            </div>
+        </div>
+
+        <div class="label-row" style="margin-bottom:12px;">
+            <label>목적</label>
+        </div>
         <div class="radio-group">
-            <div class="radio-btn active" data-value="0.7">비산제어(0.7)</div>
-            <div class="radio-btn" data-value="0.55">파쇄도개선(0.55)</div>
-            <div class="radio-btn" data-value="0.5">광산채석장(0.5)</div>
+            <label class="radio-label">
+                <input type="radio" name="purpose" value="0.7" checked>
+                <span>비산제어(0.7)</span>
+            </label>
+            <label class="radio-label">
+                <input type="radio" name="purpose" value="0.55">
+                <span>파쇄도개선(0.55)</span>
+            </label>
+            <label class="radio-label">
+                <input type="radio" name="purpose" value="0.5">
+                <span>광산채석장(0.5)</span>
+            </label>
         </div>
 
         <button class="calc-btn" onclick="calculate()">계산</button>
@@ -414,24 +525,23 @@
         </div>
     </div>
 
+    <footer class="app-footer">
+        Smart Stem v1 - 발파설계 계산기
+    </footer>
+
     <script>
         // 현재 결과 저장
         let currentResult = null;
         let currentImgData = null;
 
-        // 폭약직경 직접입력 표시/숨김
-        document.getElementById('pd_sel').addEventListener('change', function() {
-            document.getElementById('pd_custom_row').style.display =
-                this.value === 'custom' ? 'grid' : 'none';
-        });
-
-        // 라디오 버튼 선택
-        document.querySelectorAll('.radio-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        // +/- 버튼으로 값 조정
+        function adjustValue(id, delta) {
+            const input = document.getElementById(id);
+            const step = parseFloat(input.step) || 1;
+            const currentVal = parseFloat(input.value) || 0;
+            const newVal = currentVal + delta * step;
+            input.value = newVal.toFixed(2);
+        }
 
         // 반올림 함수
         function rnd(x, n) {
@@ -561,7 +671,7 @@
                 const D_val = document.getElementById('D').value.trim();
                 const pd_sel = document.getElementById('pd_sel').value;
                 const pd_custom = document.getElementById('pd_custom').value.trim();
-                const k1 = parseFloat(document.querySelector('.radio-btn.active').dataset.value);
+                const k1 = parseFloat(document.querySelector('input[name="purpose"]:checked').value);
 
                 const params = {
                     K: parseFloat(document.getElementById('K').value),
