@@ -211,9 +211,14 @@ def compute(K=None, n=None, Vel=None, D=None, Q1=None, C=0.33, V=1.2,
 
 
 def get_pattern_path(result):
-    # 모든 결과에 exam.jpg 사용
-    path = os.path.join(os.path.dirname(__file__), "exam.jpg")
-    return (path, 1) if os.path.exists(path) else (None, 1)
+    # Pa 값에 따라 다른 패턴 이미지 사용
+    pa = result.get('Pa', 5)
+    # Pa 1,2 -> 패턴1, Pa 3 -> 패턴2, Pa 4 -> 패턴3, Pa 5 -> 패턴4, Pa 6 -> 패턴5
+    pattern_map = {1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5}
+    idx = pattern_map.get(pa, 4)
+    base = os.path.dirname(__file__)
+    path = os.path.join(base, "발파프로그램", f"발파패턴{idx}_1.jpg")
+    return (path, idx) if os.path.exists(path) else (None, idx)
 
 
 def make_pdf(result, img_path):
