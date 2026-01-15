@@ -642,10 +642,13 @@
             printArea.style.color = 'black';
 
             // 레이아웃 조정 - 표와 이미지 크기 맞춤
+            resultContent.style.display = 'flex';
+            resultContent.style.flexDirection = 'row';
             resultContent.style.gap = '40px';
             resultContent.style.alignItems = 'flex-start';
             resultTable.style.flex = '1';
             resultImage.style.flex = '1.2';
+            resultImage.style.order = '0';
             img.style.maxHeight = '450px';
 
             // 테이블 스타일 임시 변경
