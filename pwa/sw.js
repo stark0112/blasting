@@ -1,4 +1,4 @@
-const CACHE_NAME = 'smart-stem-v26';
+const CACHE_NAME = 'smart-stem-v27';
 const urlsToCache = [
   './',
   './index.html',
