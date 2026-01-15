@@ -673,14 +673,14 @@
             resultTitle.style.color = 'black';
             resultTitle.style.fontSize = '18px';
             resultTitle.style.textAlign = 'center';
-            resultTitle.style.width = '920px';
-            resultTitle.style.margin = '0 0 16px 0';
+            resultTitle.style.width = '900px';
+            resultTitle.style.margin = '0 auto 16px auto';
 
-            // 출력날짜 이미지 오른쪽 끝에 맞춤 (표+gap+이미지 = 900px)
+            // 출력날짜 (표+gap+이미지 = 900px)
             const printDate = document.getElementById('print-date');
             printDate.style.width = '900px';
-            printDate.style.textAlign = 'right';
-            printDate.style.margin = '0 0 20px 0';
+            printDate.style.textAlign = 'center';
+            printDate.style.margin = '0 auto 20px auto';
 
             try {
                 const canvas = await html2canvas(printArea, {
