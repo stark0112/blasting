@@ -259,9 +259,20 @@
             .result-title {
                 color: black;
                 font-size: 18px;
+                margin-bottom: 16px;
             }
             .result-content {
+                display: flex !important;
+                flex-direction: row !important;
                 gap: 30px;
+                align-items: flex-start !important;
+            }
+            .result-table {
+                flex: 1 !important;
+            }
+            .result-image {
+                flex: 1.2 !important;
+                order: 0 !important;
             }
             .result-table th, .result-table td {
                 border-color: #333;
@@ -696,9 +707,14 @@
                 alert('먼저 계산을 실행해주세요.');
                 return;
             }
-            // 날짜 업데이트
+            // 날짜 업데이트 (YYYY-MM-DD HH:MM 형식)
             const now = new Date();
-            document.getElementById('print-date').textContent = '출력날짜: ' + now.toLocaleString('ko-KR');
+            const dateStr = now.getFullYear() + '-' +
+                String(now.getMonth()+1).padStart(2,'0') + '-' +
+                String(now.getDate()).padStart(2,'0') + ' ' +
+                String(now.getHours()).padStart(2,'0') + ':' +
+                String(now.getMinutes()).padStart(2,'0');
+            document.getElementById('print-date').textContent = '출력날짜: ' + dateStr;
             window.print();
         }
 
