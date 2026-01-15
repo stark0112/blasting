@@ -672,13 +672,14 @@
             const resultTitle = printArea.querySelector('.result-title');
             resultTitle.style.color = 'black';
             resultTitle.style.fontSize = '18px';
-            resultTitle.style.marginBottom = '16px';
             resultTitle.style.textAlign = 'left';
+            resultTitle.style.width = '900px';
             resultTitle.style.margin = '0 0 16px 0';
 
-            // 출력날짜 이미지 오른쪽 끝에 맞춤
+            // 출력날짜 이미지 오른쪽 끝에 맞춤 (표+gap+이미지 = 900px)
             const printDate = document.getElementById('print-date');
             printDate.style.width = '900px';
+            printDate.style.textAlign = 'right';
             printDate.style.margin = '0 0 20px 0';
 
             try {
@@ -731,10 +732,11 @@
             ths.forEach(th => th.style.background = '');
             resultTitle.style.color = '';
             resultTitle.style.fontSize = '';
-            resultTitle.style.marginBottom = '';
             resultTitle.style.textAlign = '';
+            resultTitle.style.width = '';
             resultTitle.style.margin = '';
             printDate.style.width = '';
+            printDate.style.textAlign = '';
             printDate.style.margin = '';
         }
 
