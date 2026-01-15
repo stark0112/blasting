@@ -689,10 +689,16 @@
                 // 모바일 체크
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
-                    // 모바일: 새 창에서 PDF 열기
+                    // 모바일: 링크로 다운로드
                     const pdfBlob = pdf.output('blob');
                     const blobUrl = URL.createObjectURL(pdfBlob);
-                    window.open(blobUrl, '_blank');
+                    const link = document.createElement('a');
+                    link.href = blobUrl;
+                    link.download = '발파설계결과.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
                 } else {
                     // PC: 직접 다운로드
                     pdf.save('발파설계결과.pdf');
