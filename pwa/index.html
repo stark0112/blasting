@@ -648,7 +648,7 @@
             resultContent.style.flexDirection = 'row';
             resultContent.style.gap = '40px';
             resultContent.style.alignItems = 'flex-start';
-            resultContent.style.justifyContent = 'center';
+            resultContent.style.justifyContent = 'flex-start';
             resultTable.style.flex = '0 0 auto';
             resultTable.style.width = '370px';
             resultImage.style.flex = '0 0 auto';
@@ -674,16 +674,12 @@
             resultTitle.style.fontSize = '18px';
             resultTitle.style.marginBottom = '16px';
             resultTitle.style.textAlign = 'left';
-            resultTitle.style.width = '900px';
-            resultTitle.style.margin = '0 auto 16px auto';
-            resultTitle.style.paddingLeft = '5px';
+            resultTitle.style.margin = '0 0 16px 0';
 
             // 출력날짜 이미지 오른쪽 끝에 맞춤
             const printDate = document.getElementById('print-date');
             printDate.style.width = '900px';
-            printDate.style.marginLeft = 'auto';
-            printDate.style.marginRight = 'auto';
-            printDate.style.paddingRight = '40px';
+            printDate.style.margin = '0 0 20px 0';
 
             try {
                 const canvas = await html2canvas(printArea, {
@@ -737,13 +733,9 @@
             resultTitle.style.fontSize = '';
             resultTitle.style.marginBottom = '';
             resultTitle.style.textAlign = '';
-            resultTitle.style.width = '';
             resultTitle.style.margin = '';
-            resultTitle.style.paddingLeft = '';
             printDate.style.width = '';
-            printDate.style.marginLeft = '';
-            printDate.style.marginRight = '';
-            printDate.style.paddingRight = '';
+            printDate.style.margin = '';
         }
 
         // 인쇄
