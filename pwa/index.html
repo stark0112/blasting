@@ -108,20 +108,23 @@
         .result-content {
             display: flex;
             gap: 12px;
-            align-items: flex-start;
+            align-items: stretch;
         }
         .result-table {
             flex: 1;
             min-width: 0;
+            display: flex;
+            flex-direction: column;
         }
         .result-table table {
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
+            flex: 1;
         }
         .result-table th, .result-table td {
             border: 1px solid #444;
-            padding: 10px 8px;
+            padding: 12px 8px;
             text-align: left;
         }
         .result-table th {
@@ -132,11 +135,15 @@
             text-align: right;
         }
         .result-image {
-            flex: 1.5;
+            flex: 1.2;
             min-width: 0;
+            display: flex;
+            align-items: center;
         }
         .result-image img {
             width: 100%;
+            max-height: 400px;
+            object-fit: contain;
             border-radius: 4px;
         }
         .warning {
