@@ -234,11 +234,14 @@
             text-align: right;
             margin-bottom: 20px;
         }
+        @page {
+            margin: 10mm;
+        }
         @media print {
             body {
                 background: white !important;
                 color: black !important;
-                padding: 20px;
+                padding: 0;
                 max-width: none;
             }
             h1, .form-container, .calc-btn, .btn-row, .divider, .warning {
