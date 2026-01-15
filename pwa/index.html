@@ -668,19 +668,13 @@
             const ths = table.querySelectorAll('th');
             ths.forEach(th => th.style.background = '#f5f5f5');
 
-            // 제목 왼쪽 정렬 (표와 정렬 맞춤)
+            // 제목 (CSS 기본값 사용)
             const resultTitle = printArea.querySelector('.result-title');
             resultTitle.style.color = 'black';
             resultTitle.style.fontSize = '18px';
-            resultTitle.style.textAlign = 'center';
-            resultTitle.style.width = '900px';
-            resultTitle.style.margin = '0 auto 16px auto';
 
-            // 출력날짜 (표+gap+이미지 = 900px)
+            // 출력날짜 (CSS 기본값 사용)
             const printDate = document.getElementById('print-date');
-            printDate.style.width = '900px';
-            printDate.style.textAlign = 'center';
-            printDate.style.margin = '0 auto 20px auto';
 
             try {
                 const canvas = await html2canvas(printArea, {
@@ -732,12 +726,6 @@
             ths.forEach(th => th.style.background = '');
             resultTitle.style.color = '';
             resultTitle.style.fontSize = '';
-            resultTitle.style.textAlign = '';
-            resultTitle.style.width = '';
-            resultTitle.style.margin = '';
-            printDate.style.width = '';
-            printDate.style.textAlign = '';
-            printDate.style.margin = '';
         }
 
         // 인쇄
